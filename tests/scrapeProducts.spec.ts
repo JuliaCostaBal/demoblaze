@@ -9,8 +9,12 @@ test.beforeEach(async ({ page }) => {
 
 test('scrape products', async ({page}) => {
   const homePage = new HomePage(page);
-  const products = await homePage.getProducts();
-  writeProductsToFile(products, 'data/products.txt');
 
+  const page1Products = await homePage.getProducts();
+  expect(await homePage.isNextButtonVisible()).toBeTruthy();
+  await homePage.goToNextPage();
+  const page2Products = await homePage.getProducts();
 
+  const allProducts = [...page1Products, ...page2Products];
+  writeProductsToFile(allProducts, 'data/products.txt');
 })
