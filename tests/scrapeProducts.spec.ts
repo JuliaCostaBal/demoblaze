@@ -1,10 +1,12 @@
 import { test, expect } from '@playwright/test';
 import demoblazeConfig from '../config/demoblaze.config.js';
+import { HomePage } from '../pages/demoblazeHomeFunctions';
 
 test.beforeEach(async ({ page }) => {
   await page.goto(demoblazeConfig.baseUrl);
 })
 
-test('open demoblaze', async ({page}) => {
-  await expect(page).toHaveTitle(/STORE/);
+test('scrape products', async ({page}) => {
+  const homePage = new HomePage(page);
+  const products = await homePage.getProducts();
 })
