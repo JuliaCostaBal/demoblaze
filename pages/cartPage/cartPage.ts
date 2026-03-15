@@ -1,4 +1,4 @@
-import { Page } from '@playwright/test';
+import { expect, Page } from '@playwright/test';
 import { cartSelectors } from './cart.selectors';
 
 export class CartPage {
@@ -27,5 +27,19 @@ export class CartPage {
 
   async confirmPurchase() {
     await this.page.click(cartSelectors.purchaseButton);
+  }
+
+  async expectProductsInCart(count: number) {
+    await expect(this.page.locator(cartSelectors.productRows)).toHaveCount(
+      count,
+    );
+  }
+
+  async deleteFirstProduct() {
+    const rows = this.page.locator(cartSelectors.productRows);
+    const initialCount = await rows.count();
+
+    await this.page.locator(cartSelectors.deleteButton).first().click();
+    await expect(rows).toHaveCount(initialCount - 1);
   }
 }

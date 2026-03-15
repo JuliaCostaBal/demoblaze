@@ -67,6 +67,9 @@ export class HomePage {
     const randomIndex = Math.floor(Math.random() * count);
     const randomProduct = products.nth(randomIndex);
 
+    const productName = await randomProduct.locator(homePageSelectors.productName).innerText();
     await randomProduct.locator(homePageSelectors.productName).click();
+
+    return productName;
   }
 }
