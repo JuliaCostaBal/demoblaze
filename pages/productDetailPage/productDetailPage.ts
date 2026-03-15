@@ -5,7 +5,7 @@ export class ProductDetailPage {
   constructor(private page: Page) {}
 
   async addToCart() {
-    await this.page.locator(productDetailSelectors.addToCartButton).click();
+    await this.page.click(productDetailSelectors.addToCartButton);
   }
 
   async waitForProduct() {
