@@ -157,5 +157,5 @@ npx playwright test tests/buyProduct.spec.ts
 
 ## Author
 
-Julia Costa
+Julia Costa,
 QA Automation Engineer
