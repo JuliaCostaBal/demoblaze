@@ -14,5 +14,5 @@ export const cartSelectors = {
   yearInput: '#year',
 
   purchaseButton: 'button:has-text("Purchase")',
-  purchaseMessage: '.sweet-alert',
+  purchaseMessage: '.sweet-alert h2',
 };
