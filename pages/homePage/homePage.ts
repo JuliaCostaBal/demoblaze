@@ -1,4 +1,4 @@
-import { homePageSelectors } from './demoblazeHome.selectors';
+import { homePageSelectors } from './home.selectors';
 import { Page } from '@playwright/test';
 
 export class HomePage {
@@ -59,4 +59,14 @@ export class HomePage {
     );
   }
 
+  async openRandomProduct() {
+    await this.page.locator(homePageSelectors.productCards).first().waitFor();
+    const products = this.page.locator(homePageSelectors.productCards);
+
+    const count = await products.count();
+    const randomIndex = Math.floor(Math.random() * count);
+    const randomProduct = products.nth(randomIndex);
+
+    await randomProduct.locator(homePageSelectors.productName).click();
+  }
 }
