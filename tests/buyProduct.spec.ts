@@ -9,25 +9,39 @@ test.beforeEach(async ({ page }) => {
 
 test('buy one product', async ({ page }) => {
   const homePage = new HomePage(page);
-  await homePage.openRandomProduct();
-
   const productDetailPage = new ProductDetailPage(page);
-  await productDetailPage.waitForProduct();
-  await productDetailPage.addToCart();
-
   const cartPage = new CartPage(page);
-  await cartPage.openCart();
-  await cartPage.waitForCartLoaded();
-  await cartPage.placeOrder();
-  await cartPage.fillOrderForm({
-    name: 'Test User',
-    country: 'Uruguay',
-    city: 'Montevideo',
-    card: '123456',
-    month: '03',
-    year: '2026',
+
+  await test.step('Open random product', async () => {
+    await homePage.openRandomProduct();
+    await productDetailPage.waitForProduct();
   });
 
-  await cartPage.confirmPurchase();
-  await cartPage.expectPurchaseSuccess();
+  await test.step('Add product to cart', async () => {
+    await productDetailPage.addToCart();
+  });
+
+  await test.step('Open cart', async () => {
+    await cartPage.openCart();
+    await cartPage.waitForCartLoaded();
+  });
+
+  await test.step('Complete purchase', async () => {
+    await cartPage.placeOrder();
+
+    await cartPage.fillOrderForm({
+      name: 'Test User',
+      country: 'Uruguay',
+      city: 'Montevideo',
+      card: '123456',
+      month: '03',
+      year: '2026',
+    });
+
+    await cartPage.confirmPurchase();
+  });
+
+  await test.step('Validate purchase success', async () => {
+    await cartPage.expectPurchaseSuccess();
+  });
 });

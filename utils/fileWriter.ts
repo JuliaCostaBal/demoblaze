@@ -1,11 +1,6 @@
 import * as fs from 'fs';
 import * as path from 'path';
-
-export interface Product {
-  name: string;
-  price: string;
-  link: string | null;
-}
+import type { Product } from '../types/product';
 
 export function writeProductsToFile(products: Product[], filePath: string) {
 

@@ -1,19 +1,22 @@
 import { homePageSelectors } from './home.selectors';
 import { expect, Page } from '@playwright/test';
+import type { Product } from '../../types/product';
 
 export class HomePage {
   constructor(private page: Page) {}
 
-  async getProducts() {
+  async getProducts(): Promise<Product[]> {
     await this.page.locator(homePageSelectors.productCards).first().waitFor();
 
     return this.page.locator(homePageSelectors.productCards).evaluateAll(
       (cards, selectors) =>
         cards.map((card) => ({
           name:
-            card.querySelector(selectors.productName)?.textContent?.trim() ?? '',
+            card.querySelector(selectors.productName)?.textContent?.trim() ??
+            '',
           price:
-            card.querySelector(selectors.productPrice)?.textContent?.trim() ?? '',
+            card.querySelector(selectors.productPrice)?.textContent?.trim() ??
+            '',
           link: card.querySelector(selectors.productName)?.getAttribute('href'),
         })),
       homePageSelectors,

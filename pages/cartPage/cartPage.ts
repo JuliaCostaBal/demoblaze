@@ -1,14 +1,6 @@
 import { expect, Page } from '@playwright/test';
 import { cartSelectors } from './cart.selectors';
-
-interface OrderData {
-  name: string;
-  country: string;
-  city: string;
-  card: string;
-  month: string;
-  year: string;
-}
+import type { Order } from '../../types/order';
 
 export class CartPage {
   constructor(private page: Page) {}
@@ -25,7 +17,7 @@ export class CartPage {
     await this.page.click(cartSelectors.placeOrderButton);
   }
 
-  async fillOrderForm(orderData: OrderData) {
+  async fillOrderForm(orderData: Order) {
     await this.page.fill(cartSelectors.nameInput, orderData.name);
     await this.page.fill(cartSelectors.countryInput, orderData.country);
     await this.page.fill(cartSelectors.cityInput, orderData.city);

@@ -8,32 +8,55 @@ test.beforeEach(async ({ page }) => {
 });
 
 test.describe('Cart additional tests', () => {
-  test('added product appears in cart', async ({ page }) => {
+
+  test('product appears in cart after adding it', async ({ page }) => {
     const homePage = new HomePage(page);
-    const productName = await homePage.openRandomProduct();
-
     const productDetailPage = new ProductDetailPage(page);
-    await productDetailPage.waitForProduct();
-    await productDetailPage.addToCart();
-
     const cartPage = new CartPage(page);
-    await cartPage.openCart();
 
-    await cartPage.expectProductInCart(productName);
+    let productName: string;
+
+    await test.step('Select random product', async () => {
+      productName = await homePage.openRandomProduct();
+      await productDetailPage.waitForProduct();
+    });
+
+    await test.step('Add product to cart', async () => {
+      await productDetailPage.addToCart();
+    });
+
+    await test.step('Open cart', async () => {
+      await cartPage.openCart();
+    });
+
+    await test.step('Verify product appears in cart', async () => {
+      await cartPage.expectProductInCart(productName);
+    });
   });
 
   test('user can remove product from cart', async ({ page }) => {
     const homePage = new HomePage(page);
-    await homePage.openRandomProduct();
-
     const productDetailPage = new ProductDetailPage(page);
-    await productDetailPage.addToCart();
-
     const cartPage = new CartPage(page);
-    await cartPage.openCart();
-    await cartPage.expectProductsInCart(1);
 
-    await cartPage.deleteFirstProduct();
-    await cartPage.expectCartEmpty();
+    await test.step('Add product to cart', async () => {
+      await homePage.openRandomProduct();
+      await productDetailPage.waitForProduct();
+      await productDetailPage.addToCart();
+    });
+
+    await test.step('Open cart and verify product is present', async () => {
+      await cartPage.openCart();
+      await cartPage.waitForCartLoaded();
+      await cartPage.expectProductsInCart(1);
+    });
+
+    await test.step('Remove product from cart', async () => {
+      await cartPage.deleteFirstProduct();
+    });
+
+    await test.step('Verify cart is empty', async () => {
+      await cartPage.expectCartEmpty();
+    });
   });
 });
