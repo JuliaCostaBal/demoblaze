@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test } from '@playwright/test';
 import { HomePage } from '../pages/homePage/homePage';
 import { writeProductsToFile } from '../utils/fileWriter';
 
@@ -10,7 +10,7 @@ test('scrape products', async ({page}) => {
   const homePage = new HomePage(page);
 
   const page1Products = await homePage.getProducts();
-  expect(await homePage.isNextButtonVisible()).toBeTruthy();
+  await homePage.expectNextButtonVisible();
   await homePage.goToNextPage();
   const page2Products = await homePage.getProducts();
 

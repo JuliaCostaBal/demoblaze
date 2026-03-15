@@ -1,42 +1,27 @@
 import { homePageSelectors } from './home.selectors';
-import { Page } from '@playwright/test';
+import { expect, Page } from '@playwright/test';
 
 export class HomePage {
-  private page: Page;
-
-  constructor(page: Page) {
-    this.page = page;
-  }
+  constructor(private page: Page) {}
 
   async getProducts() {
     await this.page.locator(homePageSelectors.productCards).first().waitFor();
-    const products = this.page.locator(homePageSelectors.productCards);
 
-    const count = await products.count();
-
-    const result: { name: string; price: string; link: string | null }[] = [];
-
-    for (let i = 0; i < count; i++) {
-      const product = products.nth(i);
-
-      const name = await product
-        .locator(homePageSelectors.productName)
-        .innerText();
-      const price = await product
-        .locator(homePageSelectors.productPrice)
-        .innerText();
-      const link = await product
-        .locator(homePageSelectors.productName)
-        .getAttribute('href');
-
-      result.push({ name, price, link });
-    }
-
-    return result;
+    return this.page.locator(homePageSelectors.productCards).evaluateAll(
+      (cards, selectors) =>
+        cards.map((card) => ({
+          name:
+            card.querySelector(selectors.productName)?.textContent?.trim() ?? '',
+          price:
+            card.querySelector(selectors.productPrice)?.textContent?.trim() ?? '',
+          link: card.querySelector(selectors.productName)?.getAttribute('href'),
+        })),
+      homePageSelectors,
+    );
   }
 
-  async isNextButtonVisible() {
-    return this.page.locator(homePageSelectors.nextButton).isVisible();
+  async expectNextButtonVisible() {
+    await expect(this.page.locator(homePageSelectors.nextButton)).toBeVisible();
   }
 
   async goToNextPage() {
@@ -67,7 +52,9 @@ export class HomePage {
     const randomIndex = Math.floor(Math.random() * count);
     const randomProduct = products.nth(randomIndex);
 
-    const productName = await randomProduct.locator(homePageSelectors.productName).innerText();
+    const productName = await randomProduct
+      .locator(homePageSelectors.productName)
+      .innerText();
     await randomProduct.locator(homePageSelectors.productName).click();
 
     return productName;

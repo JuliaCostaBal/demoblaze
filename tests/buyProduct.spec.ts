@@ -1,8 +1,7 @@
-import { test, expect } from '@playwright/test';
+import { test } from '@playwright/test';
 import { HomePage } from '../pages/homePage/homePage';
 import { ProductDetailPage } from '../pages/productDetailPage/productDetailPage';
 import { CartPage } from '../pages/cartPage/cartPage';
-import { cartSelectors} from '../pages/cartPage/cart.selectors';
 
 test.beforeEach(async ({ page }) => {
   await page.goto('');
@@ -28,9 +27,7 @@ test('buy one product', async ({ page }) => {
     month: '03',
     year: '2026',
   });
-  await cartPage.confirmPurchase();
 
-  const successMessage = page.locator(cartSelectors.purchaseMessage);
-  await expect(successMessage).toBeVisible();
-  await expect(successMessage).toHaveText('Thank you for your purchase!');
+  await cartPage.confirmPurchase();
+  await cartPage.expectPurchaseSuccess();
 });

@@ -1,8 +1,7 @@
-import { test, expect } from '@playwright/test';
+import { test } from '@playwright/test';
 import { HomePage } from '../pages/homePage/homePage';
 import { ProductDetailPage } from '../pages/productDetailPage/productDetailPage';
 import { CartPage } from '../pages/cartPage/cartPage';
-import { cartSelectors } from '../pages/cartPage/cart.selectors';
 
 test.beforeEach(async ({ page }) => {
   await page.goto('');
@@ -20,9 +19,7 @@ test.describe('Cart additional tests', () => {
     const cartPage = new CartPage(page);
     await cartPage.openCart();
 
-    await expect(page.locator(cartSelectors.productRows)).toContainText(
-      productName,
-    );
+    await cartPage.expectProductInCart(productName);
   });
 
   test('user can remove product from cart', async ({ page }) => {
@@ -37,6 +34,6 @@ test.describe('Cart additional tests', () => {
     await cartPage.expectProductsInCart(1);
 
     await cartPage.deleteFirstProduct();
-    await expect(page.locator(cartSelectors.productRows)).toHaveCount(0);
+    await cartPage.expectCartEmpty();
   });
 });
