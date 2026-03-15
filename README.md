@@ -56,45 +56,56 @@ data
 
 ## Test Scenarios
 
-### 1. Scrape Products From First Two Pages
+The automation suite is organized into three main test files, each covering a specific area of the application.
 
-Extracts product information from the first two pages of the catalog:
+### 1. Product Scraping (`scrapeProducts.spec.ts`)
 
-* Product name
-* Product price
-* Product link
+Extracts product information from the first two pages of the catalog.
 
-The results are saved in:
+The following data is collected for each product:
 
-```
+- Product name
+- Product price
+- Product link
+
+The collected data is saved to:
+
 data/products.txt
-```
 
 ---
 
-### 2. User Can Complete Purchase Successfully
+### 2. Purchase Flow (`buyProduct.spec.ts`)
 
-Validates the full purchase flow:
+Validates the end-to-end purchase process.
 
-1. Select a random product
+Flow covered:
+
+1. Open a random product from the catalog
 2. Add the product to the cart
 3. Navigate to the cart
 4. Fill the order form
-5. Confirm purchase
-6. Validate success message
+5. Confirm the purchase
+6. Validate the success message
 
 ---
 
-### 3. Product Added to Cart Appears in Cart
+### 3. Cart Scenarios (`additionalTests.spec.ts`)
 
-Validates that a product added from the catalog is correctly displayed in the cart.
+This test file contains additional cart validation scenarios:
 
----
+**Product added to cart appears in cart**
 
-### 4. User Can Remove Product From Cart
+- Select a random product
+- Add the product to the cart
+- Open the cart
+- Verify the product appears in the cart
 
-Validates that a product can be removed from the cart and that the cart updates accordingly.
+**User can remove product from cart**
 
+- Add a product to the cart
+- Open the cart
+- Remove the product
+- Verify the cart is empty
 ---
 
 ## Setup
