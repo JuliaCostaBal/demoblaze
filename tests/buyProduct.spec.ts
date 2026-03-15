@@ -1,12 +1,11 @@
 import { test, expect } from '@playwright/test';
-import demoblazeConfig from '../config/demoblaze.config.js';
 import { HomePage } from '../pages/homePage/homePage';
 import { ProductDetailPage } from '../pages/productDetailPage/productDetailPage';
 import { CartPage } from '../pages/cartPage/cartPage';
 import { cartSelectors} from '../pages/cartPage/cart.selectors';
 
 test.beforeEach(async ({ page }) => {
-  await page.goto(demoblazeConfig.baseUrl);
+  await page.goto('');
 });
 
 test('buy one product', async ({ page }) => {

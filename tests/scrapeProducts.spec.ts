@@ -1,10 +1,9 @@
 import { test, expect } from '@playwright/test';
-import demoblazeConfig from '../config/demoblaze.config.js';
 import { HomePage } from '../pages/homePage/homePage';
 import { writeProductsToFile } from '../utils/fileWriter';
 
 test.beforeEach(async ({ page }) => {
-  await page.goto(demoblazeConfig.baseUrl);
+  await page.goto('');
 })
 
 test('scrape products', async ({page}) => {
