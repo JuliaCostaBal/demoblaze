@@ -2,7 +2,7 @@
 
 ## Overview
 
-This project contains a UI automation framework built with **Playwright and TypeScript** to validate key functionalities of the Demoblaze demo e-commerce application.
+This project contains a UI automation test suit built with **Playwright and TypeScript** to validate key functionalities of the Demoblaze demo e-commerce application.
 
 The framework follows the **Page Object Model (POM)** design pattern and separates responsibilities between selectors, page logic, and tests to improve maintainability and scalability.
 
